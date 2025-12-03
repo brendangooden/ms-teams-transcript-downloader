@@ -129,6 +129,10 @@
       groupedPreview = grouped.substring(0, 500) + '...';
     }
     
+    // Get auto-detected filename
+    const autoTitle = document.title.replace(/[^a-z0-9\s]/gi, '_').trim();
+    const displayTitle = autoTitle || '[Not detected]';
+    
     modal.innerHTML = `
       <div class="modal-content">
         <div class="modal-header">
@@ -156,6 +160,26 @@
           </div>
         </div>
         
+        <div class="filename-section">
+          <label for="filenameInput" class="filename-label">
+            <span class="label-text">Filename:</span>
+            <span class="auto-detected">(Auto-detected: ${displayTitle})</span>
+          </label>
+          <div class="filename-input-container">
+            <input 
+              type="text" 
+              id="filenameInput" 
+              class="filename-input" 
+              placeholder="Enter filename" 
+              value="${autoTitle}"
+              required
+            />
+            <span class="filename-suffix" id="filenameSuffix">_transcript</span>
+            <span class="filename-extension" id="filenameExtension">.vtt</span>
+          </div>
+          <div class="filename-hint">Enter a name for your transcript file</div>
+        </div>
+        
         <div class="modal-actions">
           <button class="modal-button modal-button-cancel" id="modalCancel">Cancel</button>
           <button class="modal-button modal-button-download" id="modalDownload">Download</button>
@@ -173,8 +197,26 @@
         option.classList.add('selected');
         selectedFormat = option.getAttribute('data-format');
         updateButtonText(selectedFormat);
+        updateFilenameSuffix(selectedFormat);
       });
     });
+    
+    // Update filename suffix when format changes
+    function updateFilenameSuffix(format) {
+      const suffixSpan = modal.querySelector('#filenameSuffix');
+      const extensionSpan = modal.querySelector('#filenameExtension');
+      
+      if (format === 'json') {
+        suffixSpan.textContent = '_transcript';
+        extensionSpan.textContent = '.json';
+      } else if (format === 'vtt') {
+        suffixSpan.textContent = '_transcript';
+        extensionSpan.textContent = '.vtt';
+      } else if (format === 'vtt-grouped') {
+        suffixSpan.textContent = '_transcript_grouped';
+        extensionSpan.textContent = '.txt';
+      }
+    }
     
     // Select default from storage
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
@@ -200,8 +242,18 @@
     });
     
     document.getElementById('modalDownload').addEventListener('click', () => {
+      const filenameInput = modal.querySelector('#filenameInput');
+      const filename = filenameInput.value.trim();
+      
+      if (!filename) {
+        filenameInput.classList.add('error');
+        alert('Please enter a filename');
+        return;
+      }
+      
+      filenameInput.classList.remove('error');
       modal.classList.remove('show');
-      proceedWithDownload();
+      proceedWithDownload(filename);
     });
     
     // Close on background click
@@ -377,7 +429,7 @@
   }
 
   // Proceed with download after format selection
-  function proceedWithDownload() {
+  function proceedWithDownload(customFilename) {
     if (!transcriptData) {
       alert('No transcript data available');
       return;
@@ -385,20 +437,23 @@
 
     let outputData = transcriptData; // JSON by default
     let extension = '.json';
+    let suffix = '_transcript';
     
     // Convert based on selected format
     if (selectedFormat === 'vtt') {
       outputData = vttData;
       extension = '.vtt';
+      suffix = '_transcript';
     } else if (selectedFormat === 'vtt-grouped') {
       // Convert JSON to grouped format
       outputData = convertJSONToGrouped(transcriptData);
-      extension = '_grouped.txt';
+      extension = '.txt';
+      suffix = '_transcript_grouped';
     }
 
-    // Get window title for filename
-    const pageTitle = document.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    const filename = `${pageTitle}_transcript${extension}`;
+    // Use custom filename from modal input
+    const sanitizedFilename = customFilename.replace(/[^a-z0-9\s]/gi, '_').toLowerCase();
+    const filename = `${sanitizedFilename}${suffix}${extension}`;
 
     // Download
     downloadDecryptedFile(outputData, filename);

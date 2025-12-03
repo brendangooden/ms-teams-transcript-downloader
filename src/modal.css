@@ -179,3 +179,81 @@
   font-weight: 600;
   margin-left: 8px;
 }
+
+/* Filename Section Styles */
+.filename-section {
+  margin: 20px 0;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.filename-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.label-text {
+  font-size: 14px;
+}
+
+.auto-detected {
+  font-size: 12px;
+  color: #999;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.filename-input-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  padding: 2px 8px;
+  transition: border-color 0.2s ease;
+}
+
+.filename-input-container:focus-within {
+  border-color: #667eea;
+}
+
+.filename-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 8px;
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.filename-input.error {
+  background: #fff0f0;
+}
+
+.filename-input::placeholder {
+  color: #aaa;
+}
+
+.filename-suffix,
+.filename-extension {
+  color: #999;
+  font-size: 14px;
+  font-family: monospace;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.filename-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
