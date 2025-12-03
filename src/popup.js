@@ -38,7 +38,6 @@ function updateStatus(status) {
   const statusIcon = document.querySelector('.status-icon');
   const statusText = document.getElementById('status-text');
   const transcriptStatus = document.getElementById('transcript-status');
-  const requestsCount = document.getElementById('requests-count');
 
   // Update status indicator
   if (status.hasTranscriptUrl) {
@@ -57,7 +56,6 @@ function updateStatus(status) {
 
   // Update info items
   transcriptStatus.textContent = status.hasTranscriptUrl ? 'Yes ✓' : 'No';
-  requestsCount.textContent = status.capturedRequestsCount || 0;
 }
 
 function showError(message) {
