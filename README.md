@@ -36,7 +36,7 @@ The extension overrides the existing "Download Transcript" button.
 
 4. **Load the Extension**:
    - Click "Load unpacked"
-   - Navigate to the `chrome-extension` folder in this repository
+   - Navigate to the `src` folder in this repository
    - Select the folder and click "Select Folder"
 
 5. **Verify Installation**:
