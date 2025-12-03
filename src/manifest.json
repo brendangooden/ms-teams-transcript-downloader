@@ -1,8 +1,11 @@
 {
   "manifest_version": 3,
   "name": "MS Teams Transcript Downloader",
+  "short_name": "Teams Transcripts",
   "version": "1.0.0",
-  "description": "Download and decrypt MS Teams meeting transcripts in 1 of 3 formats.",
+  "description": "Download MS Teams meeting transcripts in multiple formats (JSON, VTT, Grouped), even when download is disabled.",
+  "author": "Brendan Gooden",
+  "homepage_url": "https://github.com/brendangooden/ms-teams-transcript-downloader",
   "permissions": [
     "webRequest",
     "storage",
