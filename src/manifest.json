@@ -11,7 +11,8 @@
   ],
   "host_permissions": [
     "https://*.sharepoint.com/*",
-    "https://teams.microsoft.com/*"
+    "https://teams.microsoft.com/*",
+    "https://teams.cloud.microsoft/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -20,7 +21,8 @@
     {
       "matches": [
         "https://*.sharepoint.com/*",
-        "https://teams.microsoft.com/*"
+        "https://teams.microsoft.com/*",
+        "https://teams.cloud.microsoft/*"
       ],
       "js": ["intercept.js", "content.js"],
       "css": ["modal.css"],
@@ -31,7 +33,8 @@
     {
       "matches": [
         "https://*.sharepoint.com/*",
-        "https://teams.microsoft.com/*"
+        "https://teams.microsoft.com/*",
+        "https://teams.cloud.microsoft/*"
       ],
       "js": ["content.js"],
       "css": ["modal.css"],
@@ -53,7 +56,8 @@
       "resources": ["intercept.js"],
       "matches": [
         "https://*.sharepoint.com/*",
-        "https://teams.microsoft.com/*"
+        "https://teams.microsoft.com/*",
+        "https://teams.cloud.microsoft/*"
       ]
     }
   ]
