@@ -6,16 +6,10 @@
     const response = await originalFetch.apply(this, args);
     const url = args[0];
     
-    // Check if this is the media API metadata call (not the actual VTT content)
-    // Intercept both personal OneDrive recordings (-my.sharepoint.com/personal/) and
-    // team/org site recordings (.sharepoint.com/sites/) to support large company calls
+    // Intercept transcript metadata responses; exclude the VTT content endpoint
     if (url && typeof url === 'string' &&
-        /https:\/\/[^\/]*\.sharepoint\.com\/(personal|sites)\//.test(url) &&
-        url.includes('_api/v2.1/drives') && 
-        url.includes('items/') && 
-        url.includes('media') && 
         url.includes('transcripts') &&
-        !url.includes('/content')) {  // Exclude the actual VTT content endpoint
+        !url.includes('/content')) {
       
       // Clone the response so we can read it
       const clone = response.clone();
