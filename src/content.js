@@ -1064,16 +1064,16 @@
   // Firefox is the mirror image: content scripts may NOT spawn blob:/data:
   // workers, but moz-extension: web-accessible resources bypass CORS/CSP, so
   // the direct URL works there.
-  let _muxWorkerBlobUrl = null;
+  let _muxWorkerUrl = null;
   async function getMuxWorkerUrl() {
-    if (_muxWorkerBlobUrl) return _muxWorkerBlobUrl;
+    if (_muxWorkerUrl) return _muxWorkerUrl;
     const extUrl = chrome.runtime.getURL('mux-worker.js');
-    if (extUrl.startsWith('moz-extension:')) return (_muxWorkerBlobUrl = extUrl);
+    if (extUrl.startsWith('moz-extension:')) return (_muxWorkerUrl = extUrl);
     const resp = await fetch(extUrl);
     if (!resp.ok) throw new Error(`mux-worker fetch failed: HTTP ${resp.status}`);
     const src = await resp.text();
-    _muxWorkerBlobUrl = URL.createObjectURL(new Blob([src], { type: 'application/javascript' }));
-    return _muxWorkerBlobUrl;
+    _muxWorkerUrl = URL.createObjectURL(new Blob([src], { type: 'application/javascript' }));
+    return _muxWorkerUrl;
   }
 
   // Cross-browser strategy for handing track buffers to the mux worker.
