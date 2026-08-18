@@ -69,7 +69,6 @@ Firefox 128+ is required (`world: "MAIN"` content scripts). Not yet on addons.mo
 1. Clone or download this repository.
 2. Open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on…** and select `src/manifest.json`.
-4. Grant the host permissions when Firefox prompts.
 
 Temporary add-ons are removed when Firefox restarts. For a permanent install, either use Firefox Developer Edition / Nightly with `xpinstall.signatures.required` set to `false` in `about:config`, or install a signed build from a release.
 
@@ -133,7 +132,7 @@ src/
 
 ## Known limitations
 
-- Chrome / Edge only (Manifest V3).
+- Chrome / Edge (Manifest V3) and Firefox 128+.
 - Only works when you can actually view the content in the native UI — it cannot bypass access restrictions.
 - Output formats are MP4 (video, video+audio) and M4A (audio only). MP3 / WAV are no longer supported — Microsoft now AES-128-CBC encrypts SharePoint Stream segments, and no external CLI tool (ffmpeg, yt-dlp, etc.) can handle the resulting fragments. Transcode in-browser-downloaded files locally if you need a different format.
 
