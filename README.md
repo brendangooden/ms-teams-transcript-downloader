@@ -1,4 +1,4 @@
-# MS Teams / SharePoint / Stream — Video & Transcript Downloader (Chrome Extension)
+# MS Teams / SharePoint / Stream — Video & Transcript Downloader (Chrome & Firefox Extension)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/hmljlkhcebhkkhbbafiheolbneecoinp?label=chrome%20web%20store&logo=googlechrome&logoColor=white&color=4285F4)](https://chromewebstore.google.com/detail/ms-teams-transcript-downl/hmljlkhcebhkkhbbafiheolbneecoinp)
 [![Users](https://img.shields.io/chrome-web-store/users/hmljlkhcebhkkhbbafiheolbneecoinp?label=users&color=34A853)](https://chromewebstore.google.com/detail/ms-teams-transcript-downl/hmljlkhcebhkkhbbafiheolbneecoinp)
@@ -61,6 +61,17 @@ Open <https://chromewebstore.google.com/detail/ms-teams-transcript-downl/hmljlkh
 3. Toggle **Developer mode** on (top right).
 4. Click **Load unpacked** and select the `src/` folder.
 5. You should see **MS Teams Video & Transcript Downloader** in the list.
+
+### Method 3 — Firefox (load temporary add-on)
+
+Firefox 128+ is required (`world: "MAIN"` content scripts). Not yet on addons.mozilla.org, so install it unsigned:
+
+1. Clone or download this repository.
+2. Open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on…** and select `src/manifest.json`.
+4. Grant the host permissions when Firefox prompts.
+
+Temporary add-ons are removed when Firefox restarts. For a permanent install, either use Firefox Developer Edition / Nightly with `xpinstall.signatures.required` set to `false` in `about:config`, or install a signed build from a release.
 
 ## Usage
 

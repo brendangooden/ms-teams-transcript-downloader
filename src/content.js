@@ -726,7 +726,9 @@
     const mimeTypes = {
       '.json': 'application/json',
       '.vtt': 'text/vtt',
-      '.txt': 'text/plain'
+      '.txt': 'text/plain',
+      '.mp4': 'video/mp4',
+      '.m4a': 'audio/mp4'
     };
     const ext = filename.substring(filename.lastIndexOf('.'));
     const mimeType = mimeTypes[ext] || 'text/plain';
@@ -739,7 +741,9 @@
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // firefox reads the blob asynchronously after click(); revoking straight
+    // away cancels the download there. chrome doesn't care either way.
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
     console.debug('[Transcript Downloader] File downloaded successfully:', filename);
   }
 
@@ -1056,10 +1060,16 @@
   // extension's. Workaround: fetch the worker source via `chrome.runtime.getURL`
   // (which content scripts CAN do because the file is in
   // web_accessible_resources) and instantiate from a blob URL.
+  //
+  // Firefox is the mirror image: content scripts may NOT spawn blob:/data:
+  // workers, but moz-extension: web-accessible resources bypass CORS/CSP, so
+  // the direct URL works there.
   let _muxWorkerBlobUrl = null;
   async function getMuxWorkerUrl() {
     if (_muxWorkerBlobUrl) return _muxWorkerBlobUrl;
-    const resp = await fetch(chrome.runtime.getURL('mux-worker.js'));
+    const extUrl = chrome.runtime.getURL('mux-worker.js');
+    if (extUrl.startsWith('moz-extension:')) return (_muxWorkerBlobUrl = extUrl);
+    const resp = await fetch(extUrl);
     if (!resp.ok) throw new Error(`mux-worker fetch failed: HTTP ${resp.status}`);
     const src = await resp.text();
     _muxWorkerBlobUrl = URL.createObjectURL(new Blob([src], { type: 'application/javascript' }));

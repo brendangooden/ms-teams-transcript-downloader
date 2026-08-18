@@ -6,6 +6,15 @@
   "description": "Download MS Teams meeting videos and transcripts. Multiple formats (JSON, VTT, Grouped). In-browser.",
   "author": "Brendan Gooden",
   "homepage_url": "https://github.com/brendangooden/ms-teams-sharepoint-downloader",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ms-teams-downloader@brendangooden.github.io",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   "permissions": [
     "storage"
   ],
